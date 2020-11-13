@@ -37,18 +37,19 @@ class App extends React.Component {
   }
   scrubChannel(slug){
     let that = this;
-       arena.channel(slug).get()
+       arena.channel(slug,{ page: 1, per: 100 }).get()
       .then(chan => {
         chan.contents.map(item => {
-          console.log(item);
+
           //what to do with block
-          if(item.base_class == "Channel" && this.state.nesting < 3){
+          if(item.base_class == "Channel" && this.state.nesting < 2){
             let newNest = this.state.nesting + 1;
             this.setState({ nesting: newNest });
             that.scrubChannel(item.slug);
           }else{
             let joined = this.state.blocks.concat(item);
             this.setState({ blocks: joined });
+
           }
 
         });

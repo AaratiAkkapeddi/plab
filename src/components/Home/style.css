@@ -1,21 +1,45 @@
-.plain-block{
-	font-size:40px;
-	border-bottom:1px solid black;
-}
-.plain-block:nth-child(2){
-	border-top:1px solid black;
-}
+
 .makeBlock{
-  min-height: 25vh;
-  padding:25px;
+  padding:15px;
+  margin: 50px auto;
+  max-width: calc(100% - 100px);
   background:whitesmoke;
+  border:1px solid black;
 }
-.makeBlock input{
+.makeBlock button, .plain-block button{
+	background:black;
+	font-size:40px;
+	color:whitesmoke;
+	margin-top:15px;
+	outline:none;
+	padding:2px 5px;
+	border:1px solid black;
+	border:none;
+	cursor:pointer;
+}
+.makeBlock button:hover,  .plain-block button:hover{
+	background:transparent;
+	color:black;
+	border:1px solid black;
+
+}
+.makeBlock input,  .plain-block input{
 	border:1px solid black;
 	background:transparent;
 	font-size:40px;
 	margin-left:40px;
 }
+.makeBlock input:nth-child(2){
+	margin-left:0;
+}
+ .plain-block button{
+
+ 	margin-top:5px;
+ }
+  .plain-block input{
+  	margin-left:0;
+  	margin-top:5px;
+  }
 
 ::placeholder{
 	color:black;
@@ -23,4 +47,27 @@
 ::-webkit-placeholder{
 
 	color:black;
+}
+#message{
+	float:right;
+	color:red;
+	background:yellow;
+}
+.edit-area{
+	width: calc(100% - 50px);
+	margin: 0 auto;
+	border:1px solid black;
+	background:whitesmoke;
+}
+.edit-area h1:first-child{
+	margin:15px;
+}
+.plain-block{
+	background:white;
+	font-size:40px;
+	border-bottom:1px solid black;
+	padding:10px 20px;
+}
+.plain-block:nth-child(2){
+	border-top:1px solid black;
 }

@@ -18,6 +18,30 @@ class Home extends Component {
      
     };
     this.submitBlock = this.submitBlock.bind(this);
+    this.updateBlock = this.updateBlock.bind(this);
+   }
+   updateBlock(id){
+      let tags = document.getElementById(id);
+      tags = tags.querySelector(".edit-tags");
+      tags = tags.value
+      let ogValue;
+      arena
+      .block(id)
+      .get()
+      .then(block => {
+        ogValue = block.description;
+        tags =  ogValue + " " + tags;
+        arena.block(id).update({
+          description: tags
+        }).then(item => {
+            document.getElementById('message').innerHTML = "submitted";
+            setTimeout(function(){
+              document.getElementById('message').innerHTML = "";
+            }, 8000)
+        });
+      })
+      .catch(console.error);
+      
    }
    submitBlock(){
       let content = document.getElementById('block-content');
@@ -27,18 +51,40 @@ class Home extends Component {
         content: content.value,
         title: title.value,
         description: tags.value
+      }).then(item => {
+          document.getElementById('message').innerHTML = "submitted";
+          setTimeout(function(){
+            document.getElementById('message').innerHTML = "";
+          }, 8000)
       });
    }
 
    render() {
     let {blocks} = this.props;
-    let allBlocks = blocks.map(block => {
-      return (<div className='plain-block'>{block.title || "Untitled"}</div>)
+    let blocksClean = [];
+    blocks.forEach((c) => {
+        if (!blocksClean.includes(c)) {
+            blocksClean.push(c);
+        }
+    });
+
+    let allBlocks = blocksClean.map(block => {
+      return (<div key={block.id} id={block.id} className='plain-block'>
+          {block.title || "Untitled"}
+          <br></br>
+          <input
+              className="edit-tags"
+              type="text"
+              placeholder="tags"
+            /> 
+            <button onClick={()=>this.updateBlock(block.id)}>submit</button>
+          </div>)
     });
     return (
 
      <header className="App-header Homepage">
           <div className="makeBlock">
+          <h1>Test Creating a Block Here:</h1>
             <input
               id="block-title"
               className="medium-text"
@@ -56,11 +102,14 @@ class Home extends Component {
               className="medium-text"
               type="text"
               placeholder="Tags"
-            /> 
+            /> <br></br>
             <button onClick={this.submitBlock}>Create Block</button>
+            <span id='message'></span>
           </div>
-
-          {allBlocks}
+          <div className="edit-area">
+            <h1>Try Adding Tags to Existing Blocks Here:</h1>
+            {allBlocks}
+          </div>
       </header>
 
 
