@@ -10,6 +10,8 @@ import {
 } from "react-router-dom";
 import './App.css';
 import {Home} from './components'
+import Arena from "are.na"
+import ReactMarkdown from "react-markdown"
 
 const NoMatchPage = () => {
   return (
@@ -19,6 +21,7 @@ const NoMatchPage = () => {
     </div>
   );
 };
+let arena = new Arena({ accessToken: process.env.REACT_APP_ARENA_ACCESS_TOKEN });
 
 class App extends React.Component {
   constructor(props){
@@ -26,43 +29,47 @@ class App extends React.Component {
     this.state = {
         err : null,
         isLoaded : false,
-        records: [],
-        announcements: [],
-        info:[],
-        events: []
+        blocks: [],
+        nesting: 0,
+        
     };
+    this.scrubChannel = this.scrubChannel.bind(this);
+  }
+  scrubChannel(slug){
+    let that = this;
+       arena.channel(slug).get()
+      .then(chan => {
+        chan.contents.map(item => {
+          console.log(item);
+          //what to do with block
+          if(item.base_class == "Channel" && this.state.nesting < 3){
+            let newNest = this.state.nesting + 1;
+            this.setState({ nesting: newNest });
+            that.scrubChannel(item.slug);
+          }else{
+            let joined = this.state.blocks.concat(item);
+            this.setState({ blocks: joined });
+          }
+
+        });
+      })
+      .catch(err => console.log(err));
   }
   componentDidMount() {
-      // fetch('https://api.airtable.com/v0/apprjbiiZGRAW9lxA/exhibitions?api_key='+process.env.REACT_APP_AIRTABLE_API_KEY)
-      //   .then(res => res.json())
-      //   .then(res => {
-      //     this.setState({ records: res.records })
-      //   })
-      //   .catch(error => console.log(error))
-      // fetch('https://api.airtable.com/v0/apprjbiiZGRAW9lxA/announcements?api_key='+process.env.REACT_APP_AIRTABLE_API_KEY)
-      //   .then(res => res.json())
-      //   .then(res => {
-      //     this.setState({ announcements: res.records })
-      //   })
-      //   .catch(error => console.log(error))
-      // fetch('https://api.airtable.com/v0/apprjbiiZGRAW9lxA/events?api_key='+process.env.REACT_APP_AIRTABLE_API_KEY)
-      //   .then(res => res.json())
-      //   .then(res => {
-      //     this.setState({ events: res.records })
-      //   })
-      //   .catch(error => console.log(error))   
+    this.scrubChannel("poetics-lab-site")
+
   }
 
 
 render() {
-  // const { records,info, announcements, events } = this.state;
+  const { blocks } = this.state;
  
   return (
     <Router>
     <div className="App">
       <Switch>
         <Route exact path="/">
-          <Home/>
+          <Home blocks={blocks}/>
         </Route>
         <Route component={NoMatchPage} />
       </Switch>
