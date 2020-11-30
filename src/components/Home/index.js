@@ -34,9 +34,9 @@ class Home extends Component {
         arena.block(id).update({
           description: tags
         }).then(item => {
-            document.getElementById('message').innerHTML = "submitted";
+            document.getElementById('message'+id).innerHTML = "submitted";
             setTimeout(function(){
-              document.getElementById('message').innerHTML = "";
+              document.getElementById('message'+id).innerHTML = "";
             }, 8000)
         });
       })
@@ -80,6 +80,7 @@ class Home extends Component {
             /> 
             <button onClick={()=>this.updateBlock(block.id)}>submit</button>
             <br></br>
+            <span className="message" id={"message"+block.id}></span>
             <em>{block.description || "no existing tags"}</em>
           </div>)
     });

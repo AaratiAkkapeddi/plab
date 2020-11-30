@@ -48,7 +48,7 @@
 
 	color:black;
 }
-#message{
+#message, .message{
 	float:right;
 	color:red;
 	background:yellow;
