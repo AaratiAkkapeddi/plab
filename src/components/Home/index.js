@@ -68,8 +68,9 @@ class Home extends Component {
         }
     });
 
-    let allBlocks = blocksClean.map(block => {
-      return (<div key={block.id} id={block.id} className='plain-block'>
+    let allBlocks = blocksClean.map( (block, index) => {
+      console.log(block)
+      return (<div key={block.id + index} id={block.id} className='plain-block'>
           {block.title || "Untitled"}
           <br></br>
           <input
@@ -78,6 +79,8 @@ class Home extends Component {
               placeholder="tags"
             /> 
             <button onClick={()=>this.updateBlock(block.id)}>submit</button>
+            <br></br>
+            <em>{block.description || "no existing tags"}</em>
           </div>)
     });
     return (
