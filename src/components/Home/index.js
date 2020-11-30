@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactMarkdown from "react-markdown";
+import ReactHtmlParser from "react-html-parser";
 import './style.css';
+import { MdCallMade } from 'react-icons/md';
 import {
   BrowserRouter as Router,
   Switch,
@@ -70,8 +72,24 @@ class Home extends Component {
 
     let allBlocks = blocksClean.map( (block, index) => {
       console.log(block)
+      if(block.class != "Channel"){
       return (<div key={block.id + index} id={block.id} className='plain-block'>
-          {block.title || "Untitled"}
+          <a href={"are.na/block/"+block.id}>{block.title || "Untitled"} <MdCallMade /></a>
+          <div className="content">
+          {block.class == "Image" ?
+            (<img src={block.image.square.url} />) :""
+          }
+          {block.class == "Media" ?
+            (<div>{ReactHtmlParser(block.embed.html)} </div>) :""
+          }
+          {block.class == "Attachment" ?
+            (<div>{ReactHtmlParser("<iframe width='400' height='400' src="+block.attachment.url+"</iframe>")} </div>) :""
+          }
+          {block.class == "Text" ?
+            (<div className="text-block">{ReactHtmlParser(block.content_html)} </div>) :""
+          }
+          </div>
+           <em className="tags">{"tags: " + block.description || "no existing tags"}</em>
           <br></br>
           <input
               className="edit-tags"
@@ -81,8 +99,9 @@ class Home extends Component {
             <button onClick={()=>this.updateBlock(block.id)}>submit</button>
             <br></br>
             <span className="message" id={"message"+block.id}></span>
-            <em>{block.description || "no existing tags"}</em>
+           
           </div>)
+    }
     });
     return (
 
