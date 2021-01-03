@@ -165,15 +165,6 @@ class Home extends Component {
     let allBlocks = blocksClean.map( (block, index) => {
 
       if(block.class != "Channel"){
-        let mew = null
-        for (var i = records.length - 1; i >= 0; i--) {
-          if(records[i].fields["BlockId"] == block.id){
-            mew = records[i].fields["Tags"]
-            if(mew == undefined){
-              mew = ''
-            }
-          }
-        }
       return (<div key={block.id + index} id={block.id} className='plain-block'>
           <a href={"are.na/block/"+block.id}>{block.title || "Untitled"} <MdCallMade /></a>
           <div className="content">
@@ -190,7 +181,7 @@ class Home extends Component {
             (<div className="text-block">{ReactHtmlParser(block.content_html)} </div>) :""
           }
           </div>
-           <em className="tags">{"tags: " + mew || "tags: " + block.description || "no existing tags"}</em>
+           <em className="tags">{"tags: " + block.description || "no existing tags"}</em>
           <br></br>
           <input
               className="edit-tags"
