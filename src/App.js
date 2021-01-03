@@ -12,9 +12,7 @@ import './App.css';
 import {Home} from './components'
 import Arena from "are.na"
 import ReactMarkdown from "react-markdown"
-import Airtable from "airtable";
-const base = new Airtable({ apiKey: process.env.REACT_APP_AIRTABLE_API_KEY }).base('appCCIW2wLHB8NCYK');
-let mew = [];
+
 const NoMatchPage = () => {
   return (
     <div>
@@ -33,7 +31,6 @@ class App extends React.Component {
         isLoaded : false,
         blocks: [],
         nesting: 0,
-        records:[]
         
     };
     this.scrubChannel = this.scrubChannel.bind(this);
@@ -60,35 +57,20 @@ class App extends React.Component {
       .catch(err => console.log(err));
   }
   componentDidMount() {
-    
     this.scrubChannel("poetics-lab-site")
 
-base('TagIndex').select({view: 'Grid view'})
-    .eachPage(
-      (records, fetchNextPage) => {
-        if(mew){
-          mew = mew.concat(records)
-          this.setState({
-            records: mew
-          });
-        }
-        
-
-        fetchNextPage();
-      }
-    );
   }
 
 
 render() {
-  const { blocks, records } = this.state;
+  const { blocks } = this.state;
  
   return (
     <Router>
     <div className="App">
       <Switch>
         <Route exact path="/">
-          <Home records={records} blocks={blocks}/>
+          <Home blocks={blocks}/>
         </Route>
         <Route component={NoMatchPage} />
       </Switch>
