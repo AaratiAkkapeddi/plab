@@ -51,14 +51,10 @@ class Home extends Component {
     blocksCleanArr.forEach((c) => {
        // console.log('<3' + c.id)
         let makeNew = true;
-        let makeUpdate = false;
         for (var i = records.length - 1; i >= 0; i--) {
           if(records[i].fields["BlockId"] == c.id.toString()){
             makeNew = false
-            if(records[i].fields["Tags"] != c.description){
-              console.log('mew')
-              this.handleUpdate(records[i].id, c.title, records[i].fields["BlockId"], records[i].fields["Tags"] + " " + c.description)
-            }
+ 
           } 
         }
 
@@ -97,9 +93,9 @@ class Home extends Component {
       {
         id: airtableId,
         fields: {
-          Title: title,
-          BlockId: blockId,
-          Tags: tags
+          title: title,
+          blockId: blockId,
+          tags: tags
         },
       },
     ];
