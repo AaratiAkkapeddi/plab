@@ -9,14 +9,15 @@ import {
   useParams
 } from "react-router-dom";
 import './App.css';
-import {Home} from './components'
+import {Home,Create} from './components'
 import Arena from "are.na"
 import ReactMarkdown from "react-markdown"
-
+import Airtable from "airtable";
+const base = new Airtable({ apiKey: process.env.REACT_APP_AIRTABLE_API_KEY }).base('appCCIW2wLHB8NCYK');
+let mew = [];
 const NoMatchPage = () => {
   return (
     <div>
-      <img className='oops-image' src='https://dl.airtable.com/.attachmentThumbnails/e2a293ce9cca576fcb3cf35ebdda5302/f5780653'/>
       <h3 className='oops-message text-large'>Woops! This page does not exist. Maybe try going <a className='link' href='/'>Home</a>?</h3>
     </div>
   );
@@ -29,48 +30,45 @@ class App extends React.Component {
     this.state = {
         err : null,
         isLoaded : false,
-        blocks: [],
-        nesting: 0,
-        
+        nodes: [],
+     
     };
-    this.scrubChannel = this.scrubChannel.bind(this);
+   
   }
-  scrubChannel(slug){
-    let that = this;
-       arena.channel(slug,{ page: 1, per: 100 }).get()
-      .then(chan => {
-        chan.contents.map(item => {
 
-          //what to do with block
-          if(item.base_class == "Channel" && this.state.nesting < 2){
-            let newNest = this.state.nesting + 1;
-            this.setState({ nesting: newNest });
-            that.scrubChannel(item.slug);
-          }else{
-            let joined = this.state.blocks.concat(item);
-            this.setState({ blocks: joined });
-
-          }
-
-        });
-      })
-      .catch(err => console.log(err));
-  }
   componentDidMount() {
-    this.scrubChannel("poetics-lab-site")
+    
 
+
+base('nodes').select({view: 'Grid view'})
+    .eachPage(
+      (records, fetchNextPage) => {
+        if(mew){
+          mew = mew.concat(records)
+          this.setState({
+            nodes: mew
+          });
+        }
+        
+
+        fetchNextPage();
+      }
+    );
   }
 
 
 render() {
-  const { blocks } = this.state;
+  const { nodes } = this.state;
  
   return (
     <Router>
     <div className="App">
       <Switch>
         <Route exact path="/">
-          <Home blocks={blocks}/>
+          <Home nodes={nodes}/>
+        </Route>
+        <Route exact path="/create">
+          <Create nodes={nodes}/>
         </Route>
         <Route component={NoMatchPage} />
       </Switch>
