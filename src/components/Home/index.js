@@ -145,6 +145,7 @@ base('nodes').select({view: 'Grid view'})
           {resonances}
         </div>
         <div className="node-form">
+          Add Resonances
           <input id={node.id} type="text"/>
           <button onClick={()=>this.handleUpdate(node.id, node.fields.Resonances)} >Submit</button>
           <div id={"message-"+node.id}></div>

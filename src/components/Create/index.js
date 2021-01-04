@@ -124,6 +124,7 @@ class Create extends Component {
     return (
 
      <header className="App-header Create">
+     <nav><a href="/">all nodes</a></nav>
           <div className="makeNode">
           <h1>Test Creating a Node Here:</h1>
             <input
