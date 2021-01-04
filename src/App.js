@@ -9,7 +9,7 @@ import {
   useParams
 } from "react-router-dom";
 import './App.css';
-import {Home,Create} from './components'
+import {Home,Create, Node, Edit} from './components'
 import Arena from "are.na"
 import ReactMarkdown from "react-markdown"
 import Airtable from "airtable";
@@ -69,6 +69,12 @@ render() {
         </Route>
         <Route exact path="/create">
           <Create nodes={nodes}/>
+        </Route>
+        <Route path="/node/:id"  >
+          <Node nodes={nodes}/>
+        </Route>
+        <Route path="/edit/:id/"  >
+          <Edit nodes={nodes}/>
         </Route>
         <Route component={NoMatchPage} />
       </Switch>

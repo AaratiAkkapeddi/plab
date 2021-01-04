@@ -28,6 +28,7 @@ class Home extends Component {
 
     this.handleChangeResonances = this.handleChangeResonances.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.refreshNodes = this.refreshNodes.bind(this);
    }
 
 refreshNodes() {
@@ -116,7 +117,7 @@ base('nodes').select({view: 'Grid view'})
         <div key={node.id} className="node-wrapper">
         <div className="node">
           { node.fields.Title &&
-            <h1 className="node-title">{node.fields.Title}</h1>
+            <a href={"/node/"+node.id}><h1 className="node-title">{node.fields.Title}</h1></a>
           }
           { node.fields.Image &&
             <img className="node-img" src={node.fields.Image[0].url}/>
