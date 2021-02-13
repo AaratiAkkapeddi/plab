@@ -1,0 +1,21 @@
+.blok{
+	background: #f8f8f8;
+	border:1px solid #9a9a9a;
+	display: inline-block;
+	margin:10px;
+	
+}
+.blok .title{
+	padding:10px 20px;
+}
+.tags{
+	background: #1b1b1d;
+}
+.tag{
+	font-size:10px;
+	background:yellow;
+	display: inline-block;
+	margin:5px;
+	padding:5px 10px;
+	border-radius: 10px;
+}

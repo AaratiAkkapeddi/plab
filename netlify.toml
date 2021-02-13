@@ -1,4 +1,0 @@
-[build]
-  functions = "functions/"
-  publish = "build/"
-  command = "CI=false npm run build"
