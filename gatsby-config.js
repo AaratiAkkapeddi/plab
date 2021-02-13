@@ -13,6 +13,7 @@ module.exports = {
         url: "https://api.are.na/graphql",
         headers: {
           "X-APP-TOKEN": `${process.env.REACT_APP_ARENA_KEY}`,
+          'X-AUTH-TOKEN': `${process.env.REACT_APP_AUTH_KEY}`
         },
       },
     },],

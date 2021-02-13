@@ -1,9 +1,19 @@
 .blok{
 	background: #f8f8f8;
-	border:1px solid #9a9a9a;
+	border:1px solid #1b1b1d;
 	display: inline-block;
 	margin:10px;
-	
+	width:400px;
+}	
+.blok img{
+	width:100%;
+	background: #1b1b1d;
+}
+.blok .text{
+	font-size: 20px;
+	padding:10px 20px;
+	background: #1b1b1d;
+	color:whitesmoke;
 }
 .blok .title{
 	padding:10px 20px;
