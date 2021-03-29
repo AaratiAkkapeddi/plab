@@ -1,6 +1,30 @@
 import React from "react"
 import { graphql } from "gatsby"
-
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+import { CORE_BLOKK_FIELDS } from './fragments/blokfragment';
+// This query is executed at run time by Apollo.
+const APOLLO_QUERY = gql`
+    {
+      blokk(id: "11050263"){
+          ... on Text {
+            content(format: HTML, no_links: true)
+          }
+          ... on Image {
+            image_url
+          }
+          ... on Link {
+            href
+          }
+          ... on Embed{
+            embed_html
+          }
+          ... on Attachment{
+            file_url
+          }   
+      }
+    }  
+`;
 
 const ComponentName = ({ data }) => {
   console.log(data)
@@ -64,9 +88,22 @@ let blocks = []
        )
       }
       })}
- 
+
       return (
-    <div>{blocks}</div>
+    <div>{blocks}
+    <Query query={APOLLO_QUERY}>
+    {(data,loading,error)=> {
+      if(loading)return <span>loading...</span>
+      if(error)return <span>{error}</span>
+      console.log(data)
+      return (<span>data found</span>
+           )
+    }
+
+
+    }
+    </Query>
+    </div>
     )
   
 }
